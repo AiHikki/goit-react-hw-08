@@ -1,0 +1,22 @@
+.container {
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-weight: 500;
+  padding-right: 4px;
+  margin-bottom: 4px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.searchInput {
+  background-color: transparent;
+  padding: 8px 8px;
+  color: inherit;
+  border: 1px solid black;
+  border-radius: 10px;
+  font-size: 16px;
+}

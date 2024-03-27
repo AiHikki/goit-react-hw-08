@@ -1,0 +1,11 @@
+.container {
+  padding: 16px 24px;
+  width: 1024px;
+  margin: 0 auto;
+}
+.formContainer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
