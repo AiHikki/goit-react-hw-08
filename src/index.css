@@ -1,20 +1,24 @@
-* {
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+*,
+*::after,
+*::before {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
   line-height: 1.5;
   font-weight: 400;
   font-size: 16px;
-  color: #303030;
-
-  background-color: #edeee9;
+  color: #000;
 
   --td: 150ms;
   --ttf: ease-in-out;
+  --dull-color: #c9d6ff;
+  --blue-color: rgb(55 112 210);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -28,4 +32,15 @@ ul {
 
 button {
   cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+body {
+  background: #c9d6ff;
+  background: -webkit-linear-gradient(to right, #e2e2e2, #c9d6ff);
+  background: linear-gradient(to right, #e2e2e2, #c9d6ff);
 }

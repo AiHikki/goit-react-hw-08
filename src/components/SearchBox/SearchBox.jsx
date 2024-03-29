@@ -1,11 +1,11 @@
-import { useId } from 'react';
 import c from './SearchBox.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeFilter, selectNameFilter } from '../../redux/filtersSlice';
+import { changeFilter } from '../../redux/filters/slice';
+import { selectFilter } from '../../redux/filters/selectors';
+import { TextField } from '@mui/material';
 
 const SearchBox = () => {
-  const elementId = useId();
-  const value = useSelector(selectNameFilter);
+  const value = useSelector(selectFilter);
   const dispatch = useDispatch();
 
   const handleChange = e => {
@@ -14,16 +14,14 @@ const SearchBox = () => {
 
   return (
     <div className={c.container}>
-      <label className={c.label} htmlFor={elementId}>
-        Find contacts by name
-      </label>
-      <input
+      <TextField
+        id="standard-basic"
+        label="Search"
+        variant="standard"
+        size="normal"
         value={value}
         onChange={handleChange}
-        className={c.searchInput}
-        type="text"
-        id={elementId}
-        placeholder="Name"
+        fullWidth
       />
     </div>
   );

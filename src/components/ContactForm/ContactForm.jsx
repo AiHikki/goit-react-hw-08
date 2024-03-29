@@ -1,18 +1,27 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as yup from 'yup';
-import { useId } from 'react';
+import * as Yup from 'yup';
 import c from './ContactForm.module.css';
-import { useDispatch } from 'react-redux';
-import { addContact } from '../../redux/contactsOps';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact } from '../../redux/contacts/operations';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { selectLoading } from '../../redux/contacts/selectors';
 
-const schema = yup.object().shape({
-  name: yup.string().min(3, 'Too short').max(50, 'Too long').required('Required'),
-  number: yup.string().min(3, 'Too short').max(50, 'Too long').required('Required'),
+const validationSchema = Yup.object().shape({
+  name: Yup.string().min(3, 'Too short').max(50, 'Too long').required('Required'),
+  number: Yup.string().min(3, 'Too short').max(50, 'Too long').required('Required'),
 });
 
+const defaultTheme = createTheme();
+
 const ContactForm = () => {
-  const elementId = useId();
   const dispatch = useDispatch();
+  const loading = useSelector(selectLoading);
 
   const handleSubmit = (values, actions) => {
     dispatch(addContact(values));
@@ -21,27 +30,62 @@ const ContactForm = () => {
 
   return (
     <div className={c.container}>
-      <Formik
-        initialValues={{ name: '', number: '' }}
-        onSubmit={handleSubmit}
-        validationSchema={schema}
-      >
-        <Form className={c.form}>
-          <div className={c.field}>
-            <label htmlFor={elementId + '-name'}>Name</label>
-            <Field name="name" type="text" id={elementId + '-name'} placeholder="Name" />
-            <ErrorMessage name="name" component="div" className={c.error} />
-          </div>
-
-          <div className={c.field}>
-            <label htmlFor={elementId + '-number'}>Number</label>
-            <Field name="number" type="tel" id={elementId + '-number'} placeholder="999-99-99" />
-            <ErrorMessage name="number" component="div" className={c.error} />
-          </div>
-
-          <button type="submit">Add Contact</button>
-        </Form>
-      </Formik>
+      <ThemeProvider theme={defaultTheme}>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Box component="div" sx={{ mt: 3 }}>
+              <Formik
+                initialValues={{ name: '', number: '' }}
+                onSubmit={handleSubmit}
+                validationSchema={validationSchema}
+              >
+                <Form>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <Field
+                        as={TextField}
+                        fullWidth
+                        id="name"
+                        label="Name"
+                        name="name"
+                        autoComplete="name"
+                      />
+                      <ErrorMessage name="name" className={c.error} component="div" />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Field
+                        as={TextField}
+                        fullWidth
+                        name="number"
+                        label="Number"
+                        id="number"
+                        autoComplete="new-number"
+                      />
+                      <ErrorMessage name="number" className={c.error} component="div" />
+                    </Grid>
+                  </Grid>
+                  <Button
+                    // disabled={loading}
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                  >
+                    Add Contact
+                  </Button>
+                </Form>
+              </Formik>
+            </Box>
+          </Box>
+        </Container>
+      </ThemeProvider>
     </div>
   );
 };
