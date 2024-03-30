@@ -1,6 +1,6 @@
-import c from './HomePage.module.css';
+import c from './Home.module.css';
 
-const HomePage = () => {
+const Home = () => {
   return (
     <div className={c.container}>
       <p className={c.greeting}>Welcome to Home Page</p>
@@ -11,4 +11,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default Home;

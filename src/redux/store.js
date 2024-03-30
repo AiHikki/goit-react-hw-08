@@ -15,7 +15,7 @@ import {
 } from 'redux-persist';
 
 const persistConfig = {
-  key: 'authSlice',
+  key: 'auth',
   storage,
   whitelist: ['token'],
 };

@@ -15,6 +15,7 @@ import { MdClose } from 'react-icons/md';
 import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { TextField } from '@mui/material';
+import toast from 'react-hot-toast';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().min(3, 'Too short').max(50, 'Too long').required('Required'),
@@ -28,13 +29,25 @@ const Contact = ({ contact: { name, number, id } }) => {
   const dispatch = useDispatch();
 
   const handleSubmit = values => {
-    dispatch(editContact({ contactId: id, contactInfo: values }));
+    dispatch(editContact({ contactId: id, contactInfo: values }))
+      .unwrap()
+      .catch(() =>
+        toast.error('Oops... Something went wrong', {
+          id: 'editError',
+        })
+      );
     setIsEdited(false);
   };
 
   const handleDelete = () => {
     // if (confirm('Are you sure you want to delete this contact?')) {
-    dispatch(deleteContact(id));
+    dispatch(deleteContact(id))
+      .unwrap()
+      .catch(() =>
+        toast.error('Oops... Something went wrong', {
+          id: 'deleteError',
+        })
+      );
     // }
   };
 

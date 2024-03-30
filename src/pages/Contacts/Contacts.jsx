@@ -6,15 +6,22 @@ import ContactForm from '../../components/ContactForm/ContactForm';
 import SearchBox from '../../components/SearchBox/SearchBox';
 import Loader from '../../components/Loader/Loader';
 import ContactList from '../../components/ContactList/ContactList';
-import c from './ContactsPage.module.css';
+import c from './Contacts.module.css';
+import toast from 'react-hot-toast';
 
-const ContactsPage = () => {
+const Contacts = () => {
   const dispatch = useDispatch();
   const loading = useSelector(selectLoading);
   const error = useSelector(selectError);
 
   useEffect(() => {
-    dispatch(fetchContacts());
+    dispatch(fetchContacts())
+      .unwrap()
+      .catch(() =>
+        toast.error('Oops... Something went wrong', {
+          id: 'error',
+        })
+      );
   }, [dispatch]);
 
   return (
@@ -31,4 +38,4 @@ const ContactsPage = () => {
   );
 };
 
-export default ContactsPage;
+export default Contacts;

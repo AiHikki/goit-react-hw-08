@@ -12,22 +12,28 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import c from './LoginForm.module.css';
 import { login } from '../../redux/auth/operations';
-import c from './SignIn.module.css';
+import toast from 'react-hot-toast';
 
 const validationSchema = Yup.object({
   email: Yup.string().email('Invalid email format').required('Required'),
   password: Yup.string().required('Required'),
 });
 
-// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-const SignIn = () => {
+const LoginForm = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = (values, actions) => {
-    dispatch(login(values));
+    dispatch(login(values))
+      .unwrap()
+      .catch(() =>
+        toast.error(`Oops... Incorrect email or password. Please try again`, {
+          id: 'error',
+        })
+      );
     actions.resetForm();
   };
 
@@ -47,7 +53,7 @@ const SignIn = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Log in
           </Typography>
           <Box component="div" sx={{ mt: 3 }}>
             <Formik
@@ -100,7 +106,7 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default LoginForm;
 
 //     {/* <FormControlLabel
 //   control={<Checkbox value="remember" color="primary" />}

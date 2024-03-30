@@ -6,8 +6,8 @@ const Loader = () => {
     <div className={c.loader}>
       <ThreeDots
         visible={true}
-        height="50"
-        width="50"
+        height="40"
+        width="40"
         color="black"
         radius="9"
         ariaLabel="three-dots-loading"

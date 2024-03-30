@@ -1,7 +1,7 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import c from './ContactForm.module.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addContact } from '../../redux/contacts/operations';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,7 +10,7 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { selectLoading } from '../../redux/contacts/selectors';
+import toast from 'react-hot-toast';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().min(3, 'Too short').max(50, 'Too long').required('Required'),
@@ -21,10 +21,15 @@ const defaultTheme = createTheme();
 
 const ContactForm = () => {
   const dispatch = useDispatch();
-  const loading = useSelector(selectLoading);
 
   const handleSubmit = (values, actions) => {
-    dispatch(addContact(values));
+    dispatch(addContact(values))
+      .unwrap()
+      .catch(() =>
+        toast.error('Oops... Something went wrong', {
+          id: 'error',
+        })
+      );
     actions.resetForm();
   };
 
@@ -71,13 +76,7 @@ const ContactForm = () => {
                       <ErrorMessage name="number" className={c.error} component="div" />
                     </Grid>
                   </Grid>
-                  <Button
-                    // disabled={loading}
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
-                  >
+                  <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                     Add Contact
                   </Button>
                 </Form>

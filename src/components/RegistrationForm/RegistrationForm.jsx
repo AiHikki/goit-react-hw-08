@@ -12,8 +12,9 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import c from './RegistrationForm.module.css';
 import { register } from '../../redux/auth/operations';
-import c from './SignUp.module.css';
+import toast from 'react-hot-toast';
 
 const validationSchema = Yup.object({
   name: Yup.string().required('Required'),
@@ -21,14 +22,19 @@ const validationSchema = Yup.object({
   password: Yup.string().min(6, 'Password must be at least 6 characters').required('Required'),
 });
 
-// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-const SignUp = () => {
+const RegistrationForm = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = (values, actions) => {
-    dispatch(register(values));
+    dispatch(register(values))
+      .unwrap()
+      .catch(() =>
+        toast.error('Oops... User or email already exists', {
+          id: 'error',
+        })
+      );
     actions.resetForm();
   };
 
@@ -66,7 +72,6 @@ const SignUp = () => {
                       fullWidth
                       id="name"
                       label="Name"
-                      autoFocus
                     />
                     <ErrorMessage name="name" className={c.error} component="div" />
                   </Grid>
@@ -100,7 +105,7 @@ const SignUp = () => {
                 <Grid container>
                   <Grid item>
                     <RouterLink className={c.link} to="/login">
-                      Already have an account? Sign in
+                      Already have an account? Log in
                     </RouterLink>
                   </Grid>
                 </Grid>
@@ -113,4 +118,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default RegistrationForm;

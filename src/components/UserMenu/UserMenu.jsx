@@ -12,13 +12,20 @@ import MenuList from '@mui/material/MenuList';
 import Stack from '@mui/material/Stack';
 import { CgProfile } from 'react-icons/cg';
 import c from './UserMenu.module.css';
+import toast from 'react-hot-toast';
 
 const UserMenu = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
 
   const handleLogout = () => {
-    dispatch(logout());
+    dispatch(logout())
+      .unwrap()
+      .catch(() =>
+        toast.error('Oops... Something went wrong', {
+          id: 'error',
+        })
+      );
   };
 
   const [open, setOpen] = React.useState(false);
