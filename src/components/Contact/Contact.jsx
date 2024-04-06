@@ -2,7 +2,7 @@ import { IoPerson } from 'react-icons/io5';
 import { FaPhoneAlt } from 'react-icons/fa';
 import c from './Contact.module.css';
 import { useDispatch } from 'react-redux';
-import { deleteContact, editContact } from '../../redux/contacts/operations';
+import { deleteContact } from '../../redux/contacts/operations';
 import { useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
@@ -10,17 +10,8 @@ import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { MdDelete } from 'react-icons/md';
 import { MdEdit } from 'react-icons/md';
-import { MdDone } from 'react-icons/md';
-import { MdClose } from 'react-icons/md';
-import { Field, Form, Formik } from 'formik';
-import * as Yup from 'yup';
-import { TextField } from '@mui/material';
 import toast from 'react-hot-toast';
-
-const validationSchema = Yup.object().shape({
-  name: Yup.string().min(3, 'Too short').max(50, 'Too long').required('Required'),
-  number: Yup.string().min(3, 'Too short').max(50, 'Too long').required('Required'),
-});
+import EditForm from '../EditForm/EditForm';
 
 const ITEM_HEIGHT = 48;
 
@@ -28,19 +19,7 @@ const Contact = ({ contact: { name, number, id } }) => {
   const [isEdited, setIsEdited] = useState(false);
   const dispatch = useDispatch();
 
-  const handleSubmit = values => {
-    dispatch(editContact({ contactId: id, contactInfo: values }))
-      .unwrap()
-      .catch(() =>
-        toast.error('Oops... Something went wrong', {
-          id: 'editError',
-        })
-      );
-    setIsEdited(false);
-  };
-
   const handleDelete = () => {
-    // if (confirm('Are you sure you want to delete this contact?')) {
     dispatch(deleteContact(id))
       .unwrap()
       .catch(() =>
@@ -48,7 +27,6 @@ const Contact = ({ contact: { name, number, id } }) => {
           id: 'deleteError',
         })
       );
-    // }
   };
 
   const handleEdit = () => {
@@ -69,52 +47,20 @@ const Contact = ({ contact: { name, number, id } }) => {
     <div className={c.contact}>
       <div className={c.info}>
         <div className={c.icons}>
-          <IoPerson />
-          <FaPhoneAlt />
+          <IoPerson className={c.icon} />
+          <FaPhoneAlt className={c.icon} />
         </div>
-        <div>
-          {isEdited ? (
-            <Formik
-              onSubmit={handleSubmit}
-              initialValues={{ name, number }}
-              validationSchema={validationSchema}
-            >
-              <Form>
-                <div className={c.formBox}>
-                  <div className={c.fields}>
-                    <Field
-                      name="name"
-                      as={TextField}
-                      size="small"
-                      id="standard-basic"
-                      variant="standard"
-                    />
-                    <Field
-                      name="number"
-                      as={TextField}
-                      size="small"
-                      id="standard-basic"
-                      variant="standard"
-                    />
-                  </div>
-                  <div className={c.formButtonsBox}>
-                    <button className={c.formBtn} type="submit">
-                      <MdDone size={20} />
-                    </button>
-                    <button onClick={() => setIsEdited(false)} className={c.formBtn} type="button">
-                      <MdClose size={20} />
-                    </button>
-                  </div>
-                </div>
-              </Form>
-            </Formik>
-          ) : (
+
+        {isEdited ? (
+          <EditForm contact={{ name, number, id }} handleEdit={setIsEdited} />
+        ) : (
+          <div>
             <div className={c.data}>
               <p>{name}</p>
               <p>{number}</p>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
       {!isEdited && (
@@ -153,7 +99,7 @@ const Contact = ({ contact: { name, number, id } }) => {
               <div className={c.menuItem}>
                 <div>Edit</div>
                 <div>
-                  <MdEdit size={20} />
+                  <MdEdit size={20} className={c.icon} />
                 </div>
               </div>
             </MenuItem>
@@ -166,7 +112,7 @@ const Contact = ({ contact: { name, number, id } }) => {
               <div className={c.menuItem}>
                 <div>Delete</div>
                 <div>
-                  <MdDelete size={20} />
+                  <MdDelete size={20} className={c.icon} />
                 </div>
               </div>
             </MenuItem>

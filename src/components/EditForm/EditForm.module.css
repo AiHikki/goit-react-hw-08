@@ -1,0 +1,24 @@
+.formBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+}
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.formButtonsBox {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.formBtn {
+  line-height: 0;
+  background-color: transparent;
+  border: none;
+}
+.icon {
+  color: #000;
+}
