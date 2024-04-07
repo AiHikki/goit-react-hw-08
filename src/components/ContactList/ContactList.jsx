@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
+import 'animate.css';
 
 const Item = styled(Paper)(({ theme }) => ({
   borderRadius: 4,
@@ -18,7 +19,7 @@ const ContactList = () => {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Stack spacing={2}>
+      <Stack className="animate__animated animate__slideInLeft" spacing={2}>
         {contacts?.map(contact => (
           <Item key={contact.id}>
             <Contact contact={contact} />

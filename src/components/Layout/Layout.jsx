@@ -11,7 +11,7 @@ const Layout = ({ children }) => {
   return (
     <div className={c.container}>
       <AppBar />
-      {children}
+      <main>{children}</main>
       <Toaster position="top-right" />
       {loading && <Loader />}
     </div>
